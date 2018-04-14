@@ -40,4 +40,8 @@ class User < ApplicationRecord
   def self.get_user_count
     User.all.size
   end
+
+  def get_comment_count
+    comments.all.size
+  end
 end

@@ -6,4 +6,12 @@ RSpec.describe User, type: :model do
     create(:user)
     expect(User.get_user_count).to eq(1)
   end
+
+  it "should count all comments by this user" do
+    user = create(:user)
+    expect(user.get_comment_count).to eq(0)
+    comment = create(:comment)
+    user.comments << comment
+    expect(user.get_comment_count).to eq(1)
+  end
 end
