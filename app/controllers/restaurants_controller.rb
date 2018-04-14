@@ -43,4 +43,9 @@ class RestaurantsController < ApplicationController
   def ranking
     @restaurants = Restaurant.order(favorites_count: :desc).limit(10)
   end
+
+  # GET restaurats/about
+  def about
+    @user_count = User.get_user_count
+  end
 end
