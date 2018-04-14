@@ -37,4 +37,7 @@ class User < ApplicationRecord
     self.followings.include?(user)
   end
 
+  def self.get_user_count
+    User.all.size
+  end
 end
