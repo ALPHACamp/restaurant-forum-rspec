@@ -12,6 +12,7 @@ Rails.application.routes.draw do
 
       # 十大人氣餐廳
       get :ranking
+      get :about
     end
 
     member do
