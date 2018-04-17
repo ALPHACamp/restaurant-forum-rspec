@@ -37,4 +37,11 @@ Rails.application.routes.draw do
     resources :categories
     root "restaurants#index"
   end
+
+  namespace :api, defaults: {format: :json} do
+    namespace :v1 do
+      post "/login" => "auth#login"
+      post "/logout" => "auth#logout"
+    end
+  end
 end
