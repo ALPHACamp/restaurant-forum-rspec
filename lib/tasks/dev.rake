@@ -1,4 +1,7 @@
 namespace :dev do
+
+  task :rebuild => ["db:seed", :fake_restaurant, :fake_user, :fake_comment]
+
   task fake_restaurant: :environment do
     Restaurant.destroy_all
 

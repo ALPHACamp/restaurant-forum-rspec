@@ -4,6 +4,7 @@ FactoryBot.define do
     sequence(:email) { |n| "user#{n}@gmail.com" }
     password { "12345678" }
     intro { FFaker::Lorem.paragraph }
+    sequence(:authentication_token) { |n| "token#{n}" }
   end
 
   factory :category do
