@@ -11,4 +11,15 @@ RSpec.describe Api::V1::AuthController, type: :controller do
       'auth_token' => user.authentication_token,
     })
   end
+
+  it "logout succesfully" do
+    user = create(:user, email: '123@gmail.com', password: '123123')
+    token = user.authentication_token
+
+    post "logout", params: { auth_token: user.authentication_token }
+
+    expect(response).to have_http_status(200)
+    user.reload
+    expect(user.authentication_token).not_to eq(token)
+  end
 end

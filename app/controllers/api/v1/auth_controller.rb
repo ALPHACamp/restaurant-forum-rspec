@@ -20,4 +20,13 @@ class Api::V1::AuthController < ApiController
       render json: { message:  "Email or Password is wrong" }, status:  401
     end
   end
+
+  # POST /api/v1/logout
+  def logout
+    # 登入時刷新 token，做為下次登入時比對用，而舊的 token 就失效了
+    current_user.generate_authentication_token
+    current_user.save!
+
+    render json: { message:  "Ok" }
+  end
 end
