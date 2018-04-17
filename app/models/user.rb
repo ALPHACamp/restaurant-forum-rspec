@@ -56,4 +56,17 @@ class User < ApplicationRecord
 
   def self.from_omniauth auth_hash
   end
+
+  def self.get_facebook_user_data(access_token)
+    conn = Faraday.new(url: 'https://graph.facebook.com')
+    response = conn.get "/me", { access_token: access_token }
+    data = JSON.parse(response.body)
+
+    if response.status == 200
+      data
+    else
+      Rails.logger.warn(data)
+      nil
+    end
+  end
 end

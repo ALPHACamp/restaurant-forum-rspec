@@ -13,6 +13,9 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require 'webmock/rspec'
+WebMock.disable_net_connect!(allow_localhost: true)
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -26,6 +29,13 @@ RSpec.configure do |config|
     # ...rather than:
     #     # => "be bigger than 2"
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
+  end
+
+  config.before(:each) do
+    access_token = Rails.application.config_for(:facebook)["access_token"]
+    stub_request(:get, 'https://graph.facebook.com/me?access_token=ACCESS_TOKEN').
+      with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Faraday v0.12.2'}).
+      to_return(status: 200, body: '{"id":"FB_UID", "name": "FB_NAME"}', headers: {})
   end
 
   # rspec-mocks config goes here. You can use an alternate test double
