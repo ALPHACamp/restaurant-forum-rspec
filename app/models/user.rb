@@ -50,4 +50,10 @@ class User < ApplicationRecord
   def get_comment_count
     comments.all.size
   end
+
+  def self.get_facebook_user_data access_token
+  end
+
+  def self.from_omniauth auth_hash
+  end
 end
