@@ -31,13 +31,6 @@ RSpec.configure do |config|
     expectations.include_chain_clauses_in_custom_matcher_descriptions = true
   end
 
-  config.before(:each) do
-    access_token = Rails.application.config_for(:facebook)["access_token"]
-    stub_request(:get, 'https://graph.facebook.com/me?access_token=ACCESS_TOKEN').
-      with(headers: {'Accept'=>'*/*', 'Accept-Encoding'=>'gzip;q=1.0,deflate;q=0.6,identity;q=0.3', 'User-Agent'=>'Faraday v0.12.2'}).
-      to_return(status: 200, body: '{"id":"FB_UID", "name": "FB_NAME"}', headers: {})
-  end
-
   # rspec-mocks config goes here. You can use an alternate test double
   # library (such as bogus or mocha) by changing the `mock_with` option here.
   config.mock_with :rspec do |mocks|
