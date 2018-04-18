@@ -12,6 +12,25 @@ RSpec.describe Api::V1::AuthController, type: :controller do
     })
   end
 
+  it "login via facebook access_token" do
+    user = create(:user, email: '123@gmail.com', password: '123123')
+    fb_data = { "id" => "123", "email" => "123@gmail.com", "name" => "fung" }
+    fb_access_token = 'blablabla'
+    auth_hash = double('OmniAuth::AuthHash')
+    allow(User).to receive(:get_facebook_user_data).with(fb_access_token).and_return(fb_data)
+
+    allow(OmniAuth::AuthHash).to receive(:new).and_return(auth_hash)
+    allow(User).to receive(:from_omniauth).with(auth_hash).and_return(user)
+
+    post "login", params: { access_token: fb_access_token }
+
+    expect(response).to have_http_status(200)
+    expect(JSON.parse(response.body)).to eq({
+      'message' => 'ok',
+      'auth_token' => user.authentication_token
+    })
+  end
+
   it "logout succesfully" do
     user = create(:user, email: '123@gmail.com', password: '123123')
     token = user.authentication_token

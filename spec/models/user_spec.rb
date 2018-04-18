@@ -14,4 +14,13 @@ RSpec.describe User, type: :model do
     user.comments << comment
     expect(user.get_comment_count).to eq(1)
   end
+
+  it "should get_facebook_user_data work(vcr version)" do
+    VCR.use_cassette 'get facebook user data' do
+      expect(User.get_facebook_user_data('ACCESS_TOKEN')).to eq({
+        "id" => "FB_UID",
+        "name" => "FB_NAME"
+      })
+    end
+  end
 end
